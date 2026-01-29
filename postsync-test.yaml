@@ -19,7 +19,8 @@ spec:
         - |
           echo "Running smoke tests..."
           # Test service connectivity
-          if curl -f http://web-app.wave-demo.svc.cluster.local\; then
+          SERVICE_URL="http://web-app.wave-demo.svc.cluster.local"
+          if curl -f "$SERVICE_URL"; then
             echo "Smoke test passed!"
             exit 0
           else
