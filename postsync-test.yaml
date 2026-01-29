@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: smoke-test
+  namespace: wave-demo
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  template:
+    spec:
+      containers:
+      - name: test
+        image: curlimages/curl:7.85.0
+        command:
+        - sh
+        - -c
+        - |
+          echo "Running smoke tests..."
+          # Test service connectivity
+          if curl -f http://web-app.wave-demo.svc.cluster.local\; then
+            echo "Smoke test passed!"
+            exit 0
+          else
+            echo "Smoke test failed!"
+            exit 1
+          fi
+      restartPolicy: Never
+  backoffLimit: 3
