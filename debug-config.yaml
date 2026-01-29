@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: debug-config
+  namespace: wave-demo
+  annotations:
+    argocd.argoproj.io/sync-options: Validate=false
+data:
+  debug: "true"
+  log-level: "debug"
